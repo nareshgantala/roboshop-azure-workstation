@@ -67,7 +67,8 @@ resource "null_resource" "name" {
 
     provisioner "remote-exec" {
     inline = [
-      "/home/devops/install.sh",
+      "chmod +x /home/devops/install.sh",
+      "bash /home/devops/install.sh",
     ]
 
    }
