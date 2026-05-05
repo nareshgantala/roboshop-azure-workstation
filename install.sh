@@ -10,4 +10,4 @@ sudo rpm --import https://packages.microsoft.com/keys/microsoft-2025.asc
 echo insatall azure cli rpm package
 sudo dnf install -y https://packages.microsoft.com/config/rhel/10/packages-microsoft-prod.rpm
 echo install azure cli
-sudo dnf install azure-cli -y
+sudo dnf -y install azure-cli
