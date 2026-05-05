@@ -52,7 +52,7 @@ resource "azurerm_linux_virtual_machine" "workstation" {
   source_image_id = "/subscriptions/9be9bd1a-817e-486f-9b33-1b1f79ed3727/resourceGroups/denmark-east/providers/Microsoft.Compute/galleries/roboshopGallery/images/roboshopImage"
   provisioner "file" {
     source      = "./install.sh"
-    destination = "/home/devops"
+    destination = "/home/devops/install.sh"
 
     connection {
         type     = "ssh"
@@ -67,6 +67,12 @@ resource "null_resource" "name" {
     depends_on = [ azurerm_linux_virtual_machine.workstation ]
 
     provisioner "remote-exec" {
+          connection {
+        type     = "ssh"
+        user     = "devops"
+        password = "Devops@12345"
+        host     = azurerm_linux_virtual_machine.workstation.public_ip_address
+    }
     inline = [
       "chmod +x /home/devops/install.sh",
       "bash /home/devops/install.sh",
