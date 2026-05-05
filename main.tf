@@ -21,6 +21,7 @@ resource "azurerm_network_interface" "workstation" {
     name                          = "workstation"
     subnet_id                     = "/subscriptions/9be9bd1a-817e-486f-9b33-1b1f79ed3727/resourceGroups/denmark-east/providers/Microsoft.Network/virtualNetworks/test-virtual-network/subnets/default"
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id = azurerm_public_ip.workstation.id
   }
 }
 
