@@ -3,6 +3,14 @@ provider "azurerm" {
   # Configuration options
 }
 
+# Added public IP to allow SSH connection for provisioners
+resource "azurerm_public_ip" "workstation" {
+  name                = "workstation-pip"
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  allocation_method   = "Dynamic"
+}
+
 resource "azurerm_network_interface" "workstation" {
   name                = "workstation-nic"
   location            = var.location
@@ -10,7 +18,7 @@ resource "azurerm_network_interface" "workstation" {
   
 
   ip_configuration {
-    name                          = workstation
+    name                          = "workstation"
     subnet_id                     = "/subscriptions/9be9bd1a-817e-486f-9b33-1b1f79ed3727/resourceGroups/denmark-east/providers/Microsoft.Network/virtualNetworks/test-virtual-network/subnets/default"
     private_ip_address_allocation = "Dynamic"
   }
@@ -24,10 +32,10 @@ resource "azurerm_network_interface_security_group_association" "workstation" {
 
 resource "azurerm_linux_virtual_machine" "workstation" {
 
-  name                = workstation
+  name                = "workstation"
   resource_group_name = var.resource_group_name
   location            = var.location
-  size                = each.value
+  size                = "Standard_B1s"
   network_interface_ids = [
     azurerm_network_interface.workstation.id,
   ]
