@@ -5,3 +5,10 @@ variable "resource_group_name" {
 variable "location" {
   default = "Denmark East"
 }
+
+variable "component" {
+  default= {
+  workstation = "Standard_B1s"
+  jenkins = "Standard_B2s"
+  }
+}
