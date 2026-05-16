@@ -11,12 +11,12 @@ sudo systemctl status jenkins
 
 sudo systemctl start jenkins
 
-# Wait for Jenkins to actually generate the password file
-echo "Waiting for Jenkins to initialize..."
-while [ ! -f /var/lib/jenkins/secrets/initialAdminPassword ]
-do
-  sleep 5
-done
+# # Wait for Jenkins to actually generate the password file
+# echo "Waiting for Jenkins to initialize..."
+# while [ ! -f /var/lib/jenkins/secrets/initialAdminPassword ]
+# do
+#   sleep 5
+# done
 
-echo "Jenkins is ready. Your Initial Admin Password is:"
-sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+# echo "Jenkins is ready. Your Initial Admin Password is:"
+# sudo cat /var/lib/jenkins/secrets/initialAdminPassword
