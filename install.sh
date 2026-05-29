@@ -20,20 +20,19 @@ echo "download kind"
 if [ "$(uname -m)" = "x86_64" ]; then
     curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.31.0/kind-linux-amd64
     chmod +x ./kind
-    sudo mv ./kind /usr/local/bin/kind
+    # CHANGED: Using /usr/bin instead of /usr/local/bin for reliable RHEL compatibility
+    sudo mv -f ./kind /usr/bin/kind
 else
     echo "Skipping kind: Not an x86_64 architecture"
 fi
 
 echo "download kubectl"
-# FIX: Hardcode a reliable version to avoid curl network dependency failures
 KUBECTL_VERSION="v1.30.0"
-
-# Add -f flag to curl so it fails explicitly if the URL is wrong
 curl -LOf "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
 
 echo "install kubectl"
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+# CHANGED: Target /usr/bin directly to avoid path lookup errors
+sudo install -o root -g root -m 0755 kubectl /usr/bin/kubectl
 
 # Clean up local file
 rm -f kubectl
