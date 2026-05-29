@@ -37,7 +37,7 @@ resource "azurerm_linux_virtual_machine" "workstation" {
   name                = "workstation"
   resource_group_name = var.resource_group_name
   location            = var.location
-  size                =  "Standard_B1s"
+  size                =  "Standard_B2s"
   network_interface_ids = [
     azurerm_network_interface.main["workstation"].id,
   ]
