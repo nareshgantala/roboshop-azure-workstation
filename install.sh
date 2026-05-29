@@ -11,3 +11,9 @@ echo insatall azure cli rpm package
 sudo dnf install -y https://packages.microsoft.com/config/rhel/10/packages-microsoft-prod.rpm
 echo install azure cli
 sudo dnf -y install azure-cli
+
+echo download kind
+# For AMD64 / x86_64
+[ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.31.0/kind-linux-amd64
+chmod +x ./kind
+sudo mv ./kind /usr/local/bin/kind
