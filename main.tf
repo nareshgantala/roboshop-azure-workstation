@@ -66,7 +66,9 @@ resource "azurerm_linux_virtual_machine" "workstation" {
 
 resource "null_resource" "ws_name" {
     depends_on = [ azurerm_linux_virtual_machine.workstation ]
-
+    triggers = {
+      always = timestamp()
+    }
     provisioner "remote-exec" {
           connection {
         type     = "ssh"
