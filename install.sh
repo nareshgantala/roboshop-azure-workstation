@@ -17,7 +17,6 @@ echo "install azure cli"
 sudo dnf -y install azure-cli
 
 echo "download kind"
-# Using a clean if-statement avoids unexpected short-circuit exit codes
 if [ "$(uname -m)" = "x86_64" ]; then
     curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.31.0/kind-linux-amd64
     chmod +x ./kind
@@ -27,14 +26,16 @@ else
 fi
 
 echo "download kubectl"
-# Step 1: Get the version string reliably
-KUBECTL_VERSION=$(curl -L -s https://dl.k8s.io/release/stable.txt)
+# FIX: Hardcode a reliable version to avoid curl network dependency failures
+KUBECTL_VERSION="v1.30.0"
 
-# Step 2: Download using the variable
-curl -LO "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
+# Add -f flag to curl so it fails explicitly if the URL is wrong
+curl -LOf "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
 
 echo "install kubectl"
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
 # Clean up local file
 rm -f kubectl
+
+echo "All installations completed successfully!"
