@@ -99,8 +99,11 @@ else
     echo "Aliases already exist in $PROFILE. Skipping append."
 fi
 
-# FIXED: Dynamically source the profile file that was actually targeted
+# Temporarily disable 'exit on error' because sourcing profile files 
+# in non-interactive SSH shells often returns non-zero status codes.
+set +e 
 source "$PROFILE"
+set -e # Re-enable it
 
 echo "install makefile"
 sudo dnf install make -y
