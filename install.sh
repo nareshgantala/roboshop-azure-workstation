@@ -101,12 +101,12 @@ fi
 
 # Temporarily disable 'exit on error' because sourcing profile files 
 # in non-interactive SSH shells often returns non-zero status codes.
-set +e 
+# Temporarily disable 'exit on error'
+set +e
 source "$PROFILE"
-set -e # Re-enable it
-
 echo "install makefile"
 sudo dnf install make -y
+set -e 
 
 echo "Please run: source $PROFILE to activate them in your current session."
 echo "All installations completed successfully!"
