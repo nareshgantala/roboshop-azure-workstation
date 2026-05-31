@@ -53,7 +53,10 @@ sudo dnf -y install dnf-plugins-core
 sudo dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
 sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 sudo systemctl enable --now docker
-sudo usermod -aG docker devops
+# Check if devops user exists before adding to group to prevent failure
+if id "devops" &>/dev/null; then
+    sudo usermod -aG docker devops
+fi
 
 echo "create roboshop cluster"
 kind create cluster --name=roboshop
@@ -70,8 +73,9 @@ fi
 
 echo "Target profile: $PROFILE"
 
-# 2. Define the block of text to add
-cat << 'EOF' >> "$PROFILE"
+# 2. Prevent duplicate entries by checking if the block already exists
+if ! grep -q "# --- Kubectl Shortcuts Added via Script ---" "$PROFILE"; then
+    cat << 'EOF' >> "$PROFILE"
 
 # --- Kubectl Shortcuts Added via Script ---
 alias k='kubectl'
@@ -90,10 +94,13 @@ if command -v kubectl &> /dev/null; then
 fi
 # ------------------------------------------
 EOF
+    echo "Aliases successfully appended to $PROFILE"
+else
+    echo "Aliases already exist in $PROFILE. Skipping append."
+fi
 
-source ~/.bash_profile
+# FIXED: Dynamically source the profile file that was actually targeted
+source "$PROFILE"
 
-echo "Aliases successfully appended to $PROFILE"
-echo "Please run: source $PROFILE to activate them."
-
+echo "Please run: source $PROFILE to activate them in your current session."
 echo "All installations completed successfully!"
