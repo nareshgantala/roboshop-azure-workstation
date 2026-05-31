@@ -54,4 +54,46 @@ sudo dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker
 sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 sudo systemctl enable --now docker
 sudo usermod -aG docker devops
+
+echo "create roboshop cluster"
+kind create cluster --name=roboshop
+
+# 1. Determine the correct profile file
+if [ -f "$HOME/.bashrc" ]; then
+    PROFILE="$HOME/.bashrc"
+elif [ -f "$HOME/.bash_profile" ]; then
+    PROFILE="$HOME/.bash_profile"
+else
+    PROFILE="$HOME/.bashrc"
+    touch "$PROFILE"
+fi
+
+echo "Target profile: $PROFILE"
+
+# 2. Define the block of text to add
+cat << 'EOF' >> "$PROFILE"
+
+# --- Kubectl Shortcuts Added via Script ---
+alias k='kubectl'
+# alias kg='kubectl get'
+# alias kgp='kubectl get pods'
+# alias kgs='kubectl get services'
+# alias kd='kubectl describe'
+# alias kdel='kubectl delete'
+# alias kl='kubectl logs'
+# alias kex='kubectl exec -it'
+
+# Fix autocompletion for the 'k' shortcut
+if command -v kubectl &> /dev/null; then
+    source <(kubectl completion bash)
+    complete -F __start_kubectl k
+fi
+# ------------------------------------------
+EOF
+
+source ~/.bash_profile
+
+echo "Aliases successfully appended to $PROFILE"
+echo "Please run: source $PROFILE to activate them."
+
 echo "All installations completed successfully!"
