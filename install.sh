@@ -61,6 +61,11 @@ fi
 echo "create roboshop cluster"
 sudo kind create cluster --name=roboshop
 
+echo "configure kubeconfig for devops user"
+mkdir -p /home/devops/.kube
+sudo kind get kubeconfig --name=roboshop > /home/devops/.kube/config
+sudo chown -R devops:devops /home/devops/.kube
+
 # 1. Determine the correct profile file
 if [ -f "$HOME/.bashrc" ]; then
     PROFILE="$HOME/.bashrc"
