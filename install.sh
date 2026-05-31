@@ -59,7 +59,7 @@ if id "devops" &>/dev/null; then
 fi
 
 echo "create roboshop cluster"
-kind create cluster --name=roboshop
+sudo kind create cluster --name=roboshop
 
 # 1. Determine the correct profile file
 if [ -f "$HOME/.bashrc" ]; then
