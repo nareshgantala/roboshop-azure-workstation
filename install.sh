@@ -102,5 +102,8 @@ fi
 # FIXED: Dynamically source the profile file that was actually targeted
 source "$PROFILE"
 
+echo "install makefile"
+sudo dnf install make -y
+
 echo "Please run: source $PROFILE to activate them in your current session."
 echo "All installations completed successfully!"
