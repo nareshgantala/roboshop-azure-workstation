@@ -66,6 +66,10 @@ mkdir -p /home/devops/.kube
 sudo kind get kubeconfig --name=roboshop > /home/devops/.kube/config
 sudo chown -R devops:devops /home/devops/.kube
 
+
+
+
+
 # 1. Determine the correct profile file
 if [ -f "$HOME/.bashrc" ]; then
     PROFILE="$HOME/.bashrc"
@@ -111,6 +115,10 @@ set +e
 source "$PROFILE"
 echo "install makefile"
 sudo dnf install make -y
+
+echo "install k9s"
+sudo dnf install -y https://github.com/derailed/k9s/releases/latest/download/k9s_linux_amd64.rpm
+
 set -e 
 
 echo "Please run: source $PROFILE to activate them in your current session."
