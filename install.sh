@@ -116,6 +116,9 @@ source "$PROFILE"
 echo "install makefile"
 sudo dnf install make -y
 
+echo helm installation
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | sudo bash
+
 echo "install k9s"
 sudo dnf install -y https://github.com/derailed/k9s/releases/latest/download/k9s_linux_amd64.rpm
 
